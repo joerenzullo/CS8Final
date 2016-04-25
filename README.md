@@ -1,2 +1,14 @@
-# CS8Final
-Here it is!
+# Task List
+- [ ] get price data
+- [ ] get price data
+- - [ ] get price data
+- - [ ] get price data
+- - [ ] get price data
+- - [ ] get price data
+- - [ ] get price data
+- - [ ] get price data
+- - [ ] get price data
+- - [ ] get price data
+- - [ ] get price data
+- - [ ] get price data
+- - [ ] get price data- [ ] get price data
