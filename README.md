@@ -1,5 +1,5 @@
 # Task List
-- [x] get price data
+- [ ] get price data
 - [ ] get time data
 - [ ] caluclate distance betweeen two airports
 - [ ] calculate stops
