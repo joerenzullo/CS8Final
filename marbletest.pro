@@ -19,6 +19,9 @@ HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
 
-LIBS += -L"/home/joe/Documents/marble-build/src/lib/marble" -L"/home/joe/Documents/marble-build/src/lib/astro"
-CONFIG(debug, debug|release): LIBS += -lmarblewidget-qt5
-CONFIG(release, debug|release): LIBS += -lmarblewidget-qt5
+LIBS += -L"/usr/local/lib/" -lmarblewidget-qt5
+
+INCLUDEPATH +=/usr/local/include
+DEPENDPATH +=/usr/local/include
+
+
