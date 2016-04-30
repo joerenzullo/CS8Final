@@ -1,7 +1,7 @@
 # Task List
-- [ ] get price data
+- [x] get price data
 - [ ] get time data
-- [ ] caluclate distance betweeen two airports
+- [x] caluclate distance betweeen two airports
 - [ ] calculate stops
 - [ ] get airports displaying on marble
 - [ ] be able to click to select an airport
@@ -9,7 +9,7 @@
 - [ ] two drop down lists (source: and destination:)
 - [ ] algorithm: shortest path (efficient)
 - [ ] allow re-definition of the shortest path
-- [ ] e.g. not just takin in information about the price, but also information about the price, distance, number of stops, and time travelled
+- [ ] e.g. not just taking in information about the price, but also information about the price, distance, number of stops, and time travelled
 - [ ] allow for average of the above
-- [ ] processing: only airport s, airlines, and routes that are well-defined
-- [ ] well defined means: it has a price, has times, has a flight route that exists
+- [x] processing: only airport s, airlines, and routes that are well-defined
+- [x] well defined means: it has a price, has times, has a flight route that exists
