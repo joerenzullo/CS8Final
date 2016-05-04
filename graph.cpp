@@ -1,6 +1,7 @@
 #include "graph.h"
 
-Graph::Graph(const size_t& size) //
+
+Graph::Graph(const int& size) //
 {
     sizeOfAirports = size;
     initialize();
@@ -30,94 +31,42 @@ void Graph::addEdge(Edge*& e) //
 {
     adj[e->SourceAirportID].push_back(e);
     ++sizeOfEdges;
+//    cout << e->source << endl;
+//    cout << adj[0][0]->source << endl;
 }
 
-size_t Graph::getSizeOfEdges() //
+int Graph::getSizeOfEdges() //
 {
     return sizeOfEdges;
 }
 
-size_t Graph::getSizeOfAirports() //
+int Graph::getSizeOfAirports() //
 {
     return sizeOfAirports;
 }
 
-double Graph::getDistTo(const size_t& dest)  //
+double Graph::getDistTo(const int& dest)  //
 {
     return distTo[dest];
 }
 
-list<size_t>& Graph::getPathTo(const size_t& dest)  //
+list<int>*& Graph::getPathTo(int dest)  //
 {
-    list<size_t> path;
+    list<int>* path = new list<int>();
     for ( ; dest != -1; dest = pathTo[dest])
-        path.push_front(dest);
+        path->push_front(dest);
     return path;
 }
 
-void Graph::shortestPath(const size_t& source, const size_t& dest)
+void Graph::shortestPath(const int& source)
 {
-    std::list<vertex_t> path;
 
-    for(i = 0; i < ParisIDS.size(); i++){
-         min_distance.clear();
-         previous.clear();
-         path.clear();
-
-         DijkstraComputePaths(ParisIDS.at(i).airportID, adjacency_list, min_distance, previous);
-
-         for(std::map<int,airport>::const_iterator it = airportsData.begin();
-             it != airportsData.end(); ++it)
-         {
-
-
-             if(!isinf(min_distance[it->first]))
-             {
-                 std::cout << "Distance from " << ParisIDS.at(i).airportID << " to " << it->first;
-
-                 std::cout << ": " << min_distance[it->first] << std::endl;
-                 std::cout << ParisIDS.at(i).city << " to " << airportsData[it->first].city << std::endl;
-                 path = DijkstraGetShortestPathTo(it->first, previous);
-                 std::cout << "Path : ";
-                 std::copy(path.begin(), path.end(), std::ostream_iterator<vertex_t>(std::cout, " "));
-                 std::cout << std::endl;
-
-
-                 tmpAirport = ParisCity;
-
-
-                 std::list<int>::const_iterator itpath = path.begin();
-                 itpath++;
-
-
-                 for(;itpath != path.end(); ++itpath)
-                 {
-                     tmpEdge = { tmpAirport.latitude, tmpAirport.longitude,
-                                 airportsData[*itpath].latitude, airportsData[*itpath].longitude };
-
-                     std::cout << tmpEdge.x0 << "," << tmpEdge.y0 << "--->" << tmpEdge.x1 << "," << tmpEdge.y1 << std::endl;
-
-                     std::map<edge,int>::iterator search = db.find(tmpEdge);
-
-                     if(search != db.end())
-                     {
-                         search->second++;
-                     }
-                     else
-                     {
-                         db.insert(std::pair<edge, int>(tmpEdge, 1));
-                     }
-
-                     tmpAirport = airportsData[*itpath];
-                 }
-             }
-         }
-    }
+    dijkstra(source);
 }
 
-void Graph::dijkstra(const size_t& source)  //
+void Graph::dijkstra(const int& source)  //
 {
-    size_t n = adj.size();
+    int n = adj.size();
     distTo.clear();
     distTo.resize(n, infinite);
     distTo[source] = 0;
@@ -128,8 +77,8 @@ void Graph::dijkstra(const size_t& source)  //
 
     while (!pq.empty())
     {
-        double dist = pg.top().first;
-        id s = pq.top().second;
+        double dist = pq.top().first;
+        int s = pq.top().second;
         pq.pop();
 
         // Because we leave old copies of the vertex in the priority queue
@@ -141,10 +90,11 @@ void Graph::dijkstra(const size_t& source)  //
         // Visit each edge exiting s
         for (std::vector<Edge*>::const_iterator iter = adj[s].begin(); iter != adj[s].end(); iter++)
         {
-            id d = iter->DestinationAirportID;
-            double weight = iter->weight;
+            int d = (*iter)->DestinationAirportID;
+            double weight = (*iter)->weight;
             double dist_through_s = dist + weight;
-            if (dist_through_s < distTo[d]) {
+            if (dist_through_s < distTo[d])
+            {
                 distTo[d] = dist_through_s;
                 pathTo[d] = s;
                 pq.push(make_pair(distTo[d], d));
@@ -158,8 +108,8 @@ void Graph::clear() //
     adj.clear();
     distTo.clear();
     pathTo.clear();
-    sizeOfEdges = size_t();
-    sizeOfAirports = size_t();
+    sizeOfEdges = int();
+    sizeOfAirports = int();
 }
 
 void Graph::copy(const Graph &other) //
@@ -182,9 +132,9 @@ void Graph::initialize() //
 {
     sizeOfEdges = 0;
     adj.reserve(sizeOfAirports);
-    for(size_t i = 0; i < sizeOfAirports; ++i) {
-        adj.push_back(vector<Edge*>()
-    	adj[i].reserve(200);
+    for(int i = 0; i < sizeOfAirports; ++i) {
+        adj.push_back(vector<Edge*>());
+        adj[i].reserve(200);
     }
     distTo.reserve(sizeOfAirports);
     pathTo.reserve(sizeOfAirports);

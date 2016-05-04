@@ -1,3 +1,6 @@
+//#include <QApplication>
+//#include <marble/MarbleWidget.h>
+
 #include <iostream>
 #include "graph.h"
 #include "drive.h"

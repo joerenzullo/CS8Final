@@ -38,7 +38,7 @@ struct Edge
     int DestinationAirportID;
 
     //We can set this dynamically, on load, given the preferences of our user.
-    double weight = DistanceMiles;
+    double weight;
 
 
     Edge(string IATA_Airline_input = string(),
@@ -98,6 +98,7 @@ struct Edge
         time = time_input;
         SourceAirportID = SourceAirportID_input;
         DestinationAirportID = DestinationAirportID_input;
+        weight = DistanceMiles;
     }
 
     ~Edge()
@@ -130,6 +131,7 @@ struct Edge
         time = double();
         SourceAirportID = int();
         DestinationAirportID = int();
+        weight = double();
     }
 
 };

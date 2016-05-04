@@ -8,10 +8,14 @@ using namespace std;
 
 void drive();
 void showPath(list<int>*& path);
-void loadfile(Graph& g);
+
+void loadfile(Graph& g, char choice);
 string tokenize(string& line);
+
 void showSPvalue(double value, char choice, int source, int dest);
-void chooseMenu();
+char chooseMenu();
+
+
 
 #endif // DRIVE
 
