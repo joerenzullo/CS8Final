@@ -11,6 +11,4 @@ HEADERS += \
     edge.h \
     graph.h \
     drive.h
-    airport.h \
-    route.h
 

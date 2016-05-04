@@ -1,6 +1,6 @@
 #include "graph.h"
 
-Graph::Graph(const size_t& size = size_t()) //
+Graph::Graph(const size_t& size) //
 {
     sizeOfAirports = size;
     initialize();
@@ -26,7 +26,7 @@ Graph& Graph::operator=(const Graph &other) //
     return *this;
 }
 
-void Graph::addEdge(const Edge*& e) //
+void Graph::addEdge(Edge*& e) //
 {
     adj[e->SourceAirportID].push_back(e);
     ++sizeOfEdges;
@@ -42,20 +42,20 @@ size_t Graph::getSizeOfAirports() //
     return sizeOfAirports;
 }
 
-double Graph::getDistTo(const id& dest)  //
+double Graph::getDistTo(const size_t& dest)  //
 {
     return distTo[dest];
 }
 
-list<id>& Graph::getPathTo(const id& dest)  //
+list<size_t>& Graph::getPathTo(const size_t& dest)  //
 {
-    list<id> path;
+    list<size_t> path;
     for ( ; dest != -1; dest = pathTo[dest])
         path.push_front(dest);
     return path;
 }
 
-void Graph::shortestPath(const id& source, const id& dest)
+void Graph::shortestPath(const size_t& source, const size_t& dest)
 {
     std::list<vertex_t> path;
 
@@ -67,7 +67,8 @@ void Graph::shortestPath(const id& source, const id& dest)
          DijkstraComputePaths(ParisIDS.at(i).airportID, adjacency_list, min_distance, previous);
 
          for(std::map<int,airport>::const_iterator it = airportsData.begin();
-             it != airportsData.end(); ++it){
+             it != airportsData.end(); ++it)
+         {
 
 
              if(!isinf(min_distance[it->first]))
@@ -89,7 +90,8 @@ void Graph::shortestPath(const id& source, const id& dest)
                  itpath++;
 
 
-                 for(;itpath != path.end(); ++itpath){
+                 for(;itpath != path.end(); ++itpath)
+                 {
                      tmpEdge = { tmpAirport.latitude, tmpAirport.longitude,
                                  airportsData[*itpath].latitude, airportsData[*itpath].longitude };
 
@@ -97,21 +99,23 @@ void Graph::shortestPath(const id& source, const id& dest)
 
                      std::map<edge,int>::iterator search = db.find(tmpEdge);
 
-                     if(search != db.end()){
+                     if(search != db.end())
+                     {
                          search->second++;
                      }
-                     else {
+                     else
+                     {
                          db.insert(std::pair<edge, int>(tmpEdge, 1));
                      }
 
                      tmpAirport = airportsData[*itpath];
                  }
              }
-
-
+         }
+    }
 }
 
-void Graph::dijkstra(const id& source)  //
+void Graph::dijkstra(const size_t& source)  //
 {
     size_t n = adj.size();
     distTo.clear();

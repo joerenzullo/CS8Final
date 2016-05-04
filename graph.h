@@ -26,20 +26,20 @@ const double infinite = std::numeric_limits<double>::infinity();
 
 class Graph {
 public:
-    Graph(const int& size = 1000);
+    Graph(const size_t& size = 1000);
     ~Graph();
     Graph(const Graph &other);
     Graph& operator=(const Graph &other);
 
     void addEdge(Edge*& e);
-    int getSizeOfEdges();
-    int getSizeOfAirports();
+    size_t getSizeOfEdges();
+    size_t getSizeOfAirports();
 
-    double getValueTo(const int& dest);
-    list<int>*& getPathTo(int dest);
+    double getValueTo(const size_t& dest);
+    list<size_t>*& getPathTo(const size_t dest);
 
-    void shortestPath(const int& source, char theChoice);
-    void dijkstra(const int& source);
+    void shortestPath(const size_t& source, char theChoice);
+    void dijkstra(const size_t& source);
 
 private:
     vector<vector<Edge*>> adj;
