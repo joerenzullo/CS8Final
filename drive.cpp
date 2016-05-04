@@ -257,6 +257,7 @@ char chooseMenu()
     while(choice < '0' || choice > '3') {
         cout << "Invalid! Your choose: " << choice;
         cin.ignore(1000, '\n');
+        cin.get(choice);
     }
     return choice;
 }
