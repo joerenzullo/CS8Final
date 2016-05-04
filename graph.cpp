@@ -1,7 +1,7 @@
 #include "graph.h"
 
 
-Graph::Graph(const size_t& size = size_t()) //
+Graph::Graph(const int& size) //
 {
     sizeOfAirports = size;
     initialize();
@@ -27,37 +27,42 @@ Graph& Graph::operator=(const Graph &other) //
     return *this;
 }
 
-void Graph::addEdge(const Edge*& e) //
+void Graph::addEdge(Edge*& e) //
 {
     adj[e->source].push_back(e);
     ++sizeOfEdges;
+//    cout << e->source << endl;
+//    cout << adj[0][0]->source << endl;
 }
 
-size_t Graph::getSizeOfEdges() //
+int Graph::getSizeOfEdges() //
 {
     return sizeOfEdges;
 }
 
-size_t Graph::getSizeOfAirports() //
+int Graph::getSizeOfAirports() //
 {
     return sizeOfAirports;
 }
 
-double Graph::getDistTo(const id& dest)  //
+double Graph::getDistTo(const int& dest)  //
 {
     return distTo[dest];
 }
 
-list<id>& Graph::getPathTo(const id& dest)  //
+list<int>*& Graph::getPathTo(int dest)  //
 {
-    list<id> path;
+    list<int>* path = new list<int>();
     for ( ; dest != -1; dest = pathTo[dest])
-        path.push_front(dest);
+        path->push_front(dest);
     return path;
 }
 
-void Graph::shortestPath(const id& source, const id& dest)
+void Graph::shortestPath(const int& source)
 {
+
+    dijkstra(source);
+    /*
     std::list<vertex_t> path;
 
     for(i = 0; i < ParisIDS.size(); i++){
@@ -108,13 +113,13 @@ void Graph::shortestPath(const id& source, const id& dest)
                      tmpAirport = airportsData[*itpath];
                  }
              }
-
+*/
 
 }
 
-void Graph::dijkstra(const id& source)  //
+void Graph::dijkstra(const int& source)  //
 {
-    size_t n = adj.size();
+    int n = adj.size();
     distTo.clear();
     distTo.resize(n, infinite);
     distTo[source] = 0;
@@ -125,8 +130,8 @@ void Graph::dijkstra(const id& source)  //
 
     while (!pq.empty())
     {
-        double dist = pg.top().first;
-        id s = pq.top().second;
+        double dist = pq.top().first;
+        int s = pq.top().second;
         pq.pop();
 
         // Because we leave old copies of the vertex in the priority queue
@@ -139,8 +144,8 @@ void Graph::dijkstra(const id& source)  //
         for (std::vector<Edge*>::const_iterator iter = adj[s].begin();
              iter != adj[s].end(); iter++)
         {
-            id d = iter->dest;
-            double weight = iter->weight;
+            int d = (*iter)->dest;
+            double weight = (*iter)->weight;
             double dist_through_s = dist + weight;
             if (dist_through_s < distTo[d]) {
                 distTo[d] = dist_through_s;
@@ -156,8 +161,8 @@ void Graph::clear() //
     adj.clear();
     distTo.clear();
     pathTo.clear();
-    sizeOfEdges = size_t();
-    sizeOfAirports = size_t();
+    sizeOfEdges = int();
+    sizeOfAirports = int();
 }
 
 void Graph::copy(const Graph &other) //
@@ -180,7 +185,7 @@ void Graph::initialize() //
 {
     sizeOfEdges = 0;
     adj.reserve(sizeOfAirports);
-    for(size_t i = 0; i < sizeOfAirports; ++i) {
+    for(int i = 0; i < sizeOfAirports; ++i) {
         adj[i].reserve(200);
     }
     distTo.reserve(sizeOfAirports);

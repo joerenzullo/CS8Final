@@ -18,38 +18,37 @@
 #include <cmath>
 
 #include "edge.h"
-#include "route.h"
-#include "airport.h"
 
 using namespace std;
 
-typedef size_t id;
+typedef priority_queue<pair<double, int>, vector<pair<double, int>>, greater<pair<double, int>> > p_queue;
 const double infinite = std::numeric_limits<double>::infinity();
 
 class Graph {
 public:
-    Graph(const size_t& size = size_t());
+    Graph(const int& size = int());
     ~Graph();
     Graph(const Graph &other);
     Graph& operator=(const Graph &other);
 
-    void addEdge(const Edge*& e);
-    size_t getSizeOfEdges();
-    size_t getSizeOfAirports();
+    void addEdge(Edge*& e);
+    int getSizeOfEdges();
+    int getSizeOfAirports();
 
-    double getDistTo(const id& dest);
-    list<id>& getPathTo(const id& dest);
+    double getDistTo(const int& dest);
+    list<int>*& getPathTo(int dest);
 
-    void shortestPath(const id& source, const id& dest);
-    void dijkstra(const id& source);
+    void shortestPath(const int& source);
+    void dijkstra(const int& source);
 
 private:
     vector<vector<Edge*>> adj;
     vector<double> distTo;
-    vector<id> pathTo;
-    priority_queue<pair<double, id>, vector<pair<double, id>>, greater<pair<double, id>> > pq;
+    vector<int> pathTo;
+    p_queue pq;
 
-    size_t sizeOfEdges;
+    int sizeOfEdges;
+    int sizeOfAirports;
 
     void clear();
     void copy(const Graph &other);
