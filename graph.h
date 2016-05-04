@@ -35,17 +35,18 @@ public:
     int getSizeOfEdges();
     int getSizeOfAirports();
 
-    double getDistTo(const int& dest);
+    double getValueTo(const int& dest);
     list<int>*& getPathTo(int dest);
 
-    void shortestPath(const int& source);
+    void shortestPath(const int& source, char theChoice);
     void dijkstra(const int& source);
 
 private:
     vector<vector<Edge*>> adj;
-    vector<double> distTo;
+    vector<double> valueTo;
     vector<int> pathTo;
     p_queue pq;
+    char choice;
 
     int sizeOfEdges;
     int sizeOfAirports;
