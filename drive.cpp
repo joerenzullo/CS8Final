@@ -28,7 +28,7 @@ void drive()
         double v = g.getDistTo(d);
         if(v > 0)
         {
-            showSPvalue(v, c, s, d);
+            showSPvalue(v, c, s, d, numberToName);
 
             //set pathVar
             g.getPathTo(d, pathVar);
@@ -37,7 +37,7 @@ void drive()
         else
         {
             // change to real airport names
-            cout << "Invalid! No flight from " << s << " to " << d << endl;
+            cout << "Invalid! No flight from " << numberToName[s] << " to " << numberToName[d] << endl;
         }
 
         cout << endl << "Try again? (Y/N): ";
@@ -63,50 +63,74 @@ void drive()
 /// 1.we need to show real name of airport instead of integer, change later
 /// 2. shortest time change to hour.
 /////////////////////////////////////////////////////////////////////////
-void showSPvalue(double value, char choice, int source, int dest)
+void showSPvalue(double value, char choice, int source, int dest, map<int,string> numberToName)
 {
     if(choice == '0')
-        cout << "The shortest distence flight from " << source << " to " << dest << " is " << value << " miles.\n";
+        cout << "The shortest distence flight from " << numberToName[source] << " to " << numberToName[dest] << " is " << value << " miles.\n" << endl;
     else if(choice == '1')
-        cout << "The best cost flight from " << source << " to " << dest <<" is " << value << " dollars.\n";
+        cout << "The best cost flight from " << numberToName[source] << " to " << numberToName[dest] <<" is " << value << " dollars.\n" << endl;
     else if(choice == '2')
-        cout << "The shortest time flight from " << source << " to " << dest << " is " << value << " hours.\n";
+        cout << "The shortest time flight from " << numberToName[source] << " to " << numberToName[dest] << " is " << value << " hours.\n" << endl;
     else
-        cout << "The least number of stops flight from " << source << " to " << dest << " is " << (int)value << " stops.\n";
+        cout << "The least number of stops flight from " << numberToName[source] << " to " << numberToName[dest] << " is " << (int)value << " stops.\n" << endl;
 }
 
 
 
 void showPath(list<int>*& path, vector<Edge*> edges)
 {
-    std::cout << "Path : " << endl;
+
     std::list<int>::const_iterator itpath = path->begin(), end = path->end()--;
     end--;
     int index = 0;
 
+    vector<Edge*> pathEdges;
+
     while(itpath != end)
     {
-        if (index == 0)
-        {
-            cout << "For the first leg of your journey, you can travel: " << endl;
-        }
-        else
-        {
-           cout << "For the next leg of your journey, you can travel: " << endl;
-        }
+        pathEdges.clear();
         int from = *itpath;
         int to = *(++itpath);
         for(Edge* e : edges)
         {
             if(e->SourceAirportID == from && e->DestinationAirportID == to)
             {
-                cout << "From " << e->SourceAirport << " to " << e->DestinationAirport << " on " << e->Airline_Name << " and travel " << e->DistanceMiles << " miles" << endl;
+                pathEdges.push_back(e);
             }
         }
+        if (index == 0)
+        {
+            Edge* dummy = pathEdges.at(0);
+            cout << "Start your journey at " << dummy->SourceAirport << " (";
+            cout << dummy->FromCity << ", " << dummy->FromCountry << ")";
+            cout << " and fly " << dummy->DistanceMiles << " miles." << endl;
+
+            cout << "You can fly on:" << endl;
+            for(Edge* j: pathEdges)
+            {
+                cout << j->Airline_Name << " for $" << j->Price << endl;
+            }
+        }
+        else
+        {
+            Edge* dummy = pathEdges.at(0);
+            cout << "Then, change planes at " << dummy->SourceAirport << " (";
+            cout << dummy->FromCity << ", " << dummy->FromCountry << ")";
+            cout << " and fly " << dummy->DistanceMiles << " miles." << endl;
+
+            cout << "You can fly on:" << endl;
+            for(Edge* j: pathEdges)
+            {
+                cout << j->Airline_Name << " for $" << j->Price << endl;
+            }
+
+        }
         index++;
-        cout << endl;
     }
-    cout << "And you have arrived at your destination." << endl;
+    cout << "Finish your journey at " << pathEdges.at(0)->DestinationAirport << " (";
+    cout << pathEdges.at(0)->ToCity << ", " << pathEdges.at(0)->ToCountry << ")";
+    cout << endl;
+
 }
 
 void loadfile(Graph& g, char choice, vector<Edge*>& edges, map<string,int>& nameToNumber, map<int,string>& numberToName)
@@ -219,7 +243,7 @@ char chooseMenu()
     cout << "Please choose shortest route base on: " << endl;
     cout << " 0. distance  1. cost  2. time  3. stops" << endl << endl;
     cin.get(choice);
-    cout << "Your choice: " << choice;
+    cout << "Your choice: " << choice << endl << endl;
     cin.ignore(1000, '\n');
     while(choice < '0' || choice > '3') {
         cout << "Invalid! Your choose: " << choice;
