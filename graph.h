@@ -36,7 +36,7 @@ public:
     int getSizeOfAirports();
 
     double getDistTo(const int& dest);
-    list<int>*& getPathTo(int dest);
+    void getPathTo(int dest, list<int>*& path);
 
     void shortestPath(const int& source);
     void dijkstra(const int& source);

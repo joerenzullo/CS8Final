@@ -15,16 +15,24 @@ void drive()
 
 
         Graph g(400);
+        vector<Edge*> edges;
+        map<string,int> nameToNumber;
+        map<int,string> numberToName;
+        list<int>* pathVar = new list<int>();
 
         //load the whole file into the graph and add all the edges
-        loadfile(g, c);
+        loadfile(g, c, edges, nameToNumber, numberToName);
 
 
         g.shortestPath(s); //need to get (s,c) syntax so user choice can matter
         double v = g.getDistTo(d);
-        if(v > 0){
+        if(v > 0)
+        {
             showSPvalue(v, c, s, d);
-            showPath(g.getPathTo(d));
+
+            //set pathVar
+            g.getPathTo(d, pathVar);
+            showPath(pathVar, edges);
         }
         else
         {
@@ -69,20 +77,39 @@ void showSPvalue(double value, char choice, int source, int dest)
 
 
 
-void showPath(list<int>*& path)
+void showPath(list<int>*& path, vector<Edge*> edges)
 {
     std::cout << "Path : " << endl;
     std::list<int>::const_iterator itpath = path->begin(), end = path->end()--;
     end--;
+    int index = 0;
 
-   while(itpath != end)
-   {
-        cout << *itpath;
-        cout << " --> " << (*(++itpath)) << endl;
+    while(itpath != end)
+    {
+        if (index == 0)
+        {
+            cout << "For the first leg of your journey, you can travel: " << endl;
+        }
+        else
+        {
+           cout << "For the next leg of your journey, you can travel: " << endl;
+        }
+        int from = *itpath;
+        int to = *(++itpath);
+        for(Edge* e : edges)
+        {
+            if(e->SourceAirportID == from && e->DestinationAirportID == to)
+            {
+                cout << "From " << e->SourceAirport << " to " << e->DestinationAirport << " on " << e->Airline_Name << " and travel " << e->DistanceMiles << " miles" << endl;
+            }
+        }
+        index++;
+        cout << endl;
     }
+    cout << "And you have arrived at your destination." << endl;
 }
 
-void loadfile(Graph& g, char choice)
+void loadfile(Graph& g, char choice, vector<Edge*>& edges, map<string,int>& nameToNumber, map<int,string>& numberToName)
 {
     ifstream myfile;
     myfile.open("routes.csv");
@@ -169,6 +196,10 @@ void loadfile(Graph& g, char choice)
             {
                 e->weight = 1;
             }
+
+            edges.push_back(e);
+            nameToNumber[e->SourceAirport] = e->SourceAirportID;
+            numberToName[e->SourceAirportID] = e->SourceAirport;
 
             g.addEdge(e);
         }

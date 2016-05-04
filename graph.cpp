@@ -50,12 +50,11 @@ double Graph::getDistTo(const int& dest)  //
     return distTo[dest];
 }
 
-list<int>*& Graph::getPathTo(int dest)  //
+void Graph::getPathTo(int dest, list<int>*& path)  //
 {
-    list<int>* path = new list<int>();
+    path->clear();
     for ( ; dest != -1; dest = pathTo[dest])
         path->push_front(dest);
-    return path;
 }
 
 void Graph::shortestPath(const int& source)
