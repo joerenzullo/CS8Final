@@ -50,6 +50,7 @@ private:
     priority_queue<pair<double, id>, vector<pair<double, id>>, greater<pair<double, id>> > pq;
 
     size_t sizeOfEdges;
+    size_t sizeOfAirports;
 
     void clear();
     void copy(const Graph &other);

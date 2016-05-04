@@ -1,22 +1,23 @@
 #include "graph.h"
 
 
-Graph::Graph() //
+Graph::Graph(const size_t& size = size_t()) //
 {
+    sizeOfAirports = size;
     initialize();
 }
 
-Graph::~Graph()
+Graph::~Graph() //
 {
     nukem();
 }
 
-Graph::Graph(const Graph &other)
+Graph::Graph(const Graph &other) //
 {
     copy(other);
 }
 
-Graph& Graph::operator=(const Graph &other)
+Graph& Graph::operator=(const Graph &other) //
 {
     if(this != &other)
     {
@@ -26,28 +27,20 @@ Graph& Graph::operator=(const Graph &other)
     return *this;
 }
 
-void Graph::addEdge(const Edge& e)
+void Graph::addEdge(const Edge*& e) //
 {
-    std::map<string, map<string, Edge>* >::iterator it = adj.find(e.source);
-    if(it != adj.end()){
-        (adj[e.source])->emplace(e.dest, e);
-    }
-    else{
-        map<string, Edge>* route = new map<string, Edge>();
-        route->emplace(e.dest, e);
-        adj.emplace(e.source, route);
-    }
+    adj[e->source].push_back(e);
     ++sizeOfEdges;
 }
 
-size_t Graph::getSizeOfEdges()
+size_t Graph::getSizeOfEdges() //
 {
     return sizeOfEdges;
 }
 
-size_t Graph::getSizeOfAirports()
+size_t Graph::getSizeOfAirports() //
 {
-    return adj.size();
+    return sizeOfAirports;
 }
 
 double Graph::getDistTo(const id& dest)  //
@@ -143,7 +136,7 @@ void Graph::dijkstra(const id& source)  //
             continue;
 
         // Visit each edge exiting s
-        for (std::vector<Edge>::const_iterator iter = adj[s].begin();
+        for (std::vector<Edge*>::const_iterator iter = adj[s].begin();
              iter != adj[s].end(); iter++)
         {
             id d = iter->dest;
@@ -158,24 +151,38 @@ void Graph::dijkstra(const id& source)  //
     }
 }
 
-void Graph::clear()
+void Graph::clear() //
 {
     adj.clear();
+    distTo.clear();
+    pathTo.clear();
+    sizeOfEdges = size_t();
+    sizeOfAirports = size_t();
 }
 
-void Graph::copy(const Graph &other)
+void Graph::copy(const Graph &other) //
 {
     //operator =
     //Assigns new contents to the container, replacing its current content.
     adj = other.adj;
+    distTo = other.distTo;
+    pathTo = other.pathTo;
+    sizeOfEdges = other.sizeOfEdges;
+    sizeOfAirports = other.sizeOfAirports;
 }
 
-void Graph::nukem()
+void Graph::nukem() //
 {
     clear();
 }
 
-void Graph::initialize()
+void Graph::initialize() //
 {
     sizeOfEdges = 0;
+    adj.reserve(sizeOfAirports);
+    for(size_t i = 0; i < sizeOfAirports; ++i) {
+        adj[i].reserve(200);
+    }
+    distTo.reserve(sizeOfAirports);
+    pathTo.reserve(sizeOfAirports);
 }
