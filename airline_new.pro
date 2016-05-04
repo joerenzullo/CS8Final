@@ -8,5 +8,7 @@ SOURCES += main.cpp \
 
 HEADERS += \
     edge.h \
-    graph.h
+    graph.h \
+    airport.h \
+    route.h
 
