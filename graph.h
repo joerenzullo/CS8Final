@@ -26,7 +26,7 @@ const double infinite = std::numeric_limits<double>::infinity();
 
 class Graph {
 public:
-    Graph(const int& size = int());
+    Graph(const int& size = 1000);
     ~Graph();
     Graph(const Graph &other);
     Graph& operator=(const Graph &other);

@@ -29,7 +29,7 @@ Graph& Graph::operator=(const Graph &other) //
 
 void Graph::addEdge(Edge*& e) //
 {
-    adj[e->source].push_back(e);
+    adj[e->SourceAirportID].push_back(e);
     ++sizeOfEdges;
 //    cout << e->source << endl;
 //    cout << adj[0][0]->source << endl;
@@ -141,10 +141,9 @@ void Graph::dijkstra(const int& source)  //
             continue;
 
         // Visit each edge exiting s
-        for (std::vector<Edge*>::const_iterator iter = adj[s].begin();
-             iter != adj[s].end(); iter++)
+        for (std::vector<Edge*>::const_iterator iter = adj[s].begin(); iter != adj[s].end(); iter++)
         {
-            int d = (*iter)->dest;
+            int d = (*iter)->DestinationAirportID;
             double weight = (*iter)->weight;
             double dist_through_s = dist + weight;
             if (dist_through_s < distTo[d]) {
@@ -186,6 +185,7 @@ void Graph::initialize() //
     sizeOfEdges = 0;
     adj.reserve(sizeOfAirports);
     for(int i = 0; i < sizeOfAirports; ++i) {
+        adj.push_back(vector<Edge*>());
         adj[i].reserve(200);
     }
     distTo.reserve(sizeOfAirports);

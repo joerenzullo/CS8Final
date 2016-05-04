@@ -4,9 +4,11 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    graph.cpp
+    graph.cpp \
+    drive.cpp
 
 HEADERS += \
     edge.h \
-    graph.h
+    graph.h \
+    drive.h
 
